@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Create logs dir
+    - name: Create logs directory
       run: mkdir -p ./logs
     
     - name: Build the Docker image
@@ -23,4 +23,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: hello-world-logs
-        path: ./logs/hello_world.log
+        path: ./logs/output.log
