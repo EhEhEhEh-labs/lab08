@@ -4,12 +4,23 @@ on:
   push:
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
+    
+    - name: Create logs dir
+      run: mkdir -p ./logs
+    
     - name: Build the Docker image
       run: docker build -t logger .
+    
+    - name: Run container with mounted volume
+      run: docker run --rm -v $(pwd)/logs:/logs logger
+    
+    - name: Upload logs as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: hello-world-logs
+        path: ./logs/hello_world.log
