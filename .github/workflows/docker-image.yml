@@ -1,29 +1,15 @@
-name: Docker CI with Logs
+name: Docker Image CI
 
-on: [push]
+on:
+  push:
 
 jobs:
+
   build:
+
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Build Docker image
+    - name: Build the Docker image
       run: docker build -t logger .
-      
-    - name: Run container
-      run: |
-         docker build -t logger .
-         docker images
-         mkdir logs
-         docker run -it -v "$(pwd)/logs/:/home/logs/" logger
-         docker inspect logger
-         cat logs/log.txt
-         gsed -i 's/lab07/lab08/g' README.md
-         docker build -t logger .
-    - name: Upload logs
-      uses: actions/upload-artifact@v4  
-      with:
-        name: logs
-        path: logs/output.txt
