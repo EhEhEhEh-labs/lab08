@@ -13,3 +13,8 @@ jobs:
     - uses: actions/checkout@v4
     - name: Build the Docker image
       run: docker build -t logger .
+    - name: Upload log as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: hello-world-logs
+        path: LOG_PATH
