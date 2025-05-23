@@ -1,9 +1,16 @@
 FROM ubuntu:24.04
 
-RUN apt update
-RUN apt install -y gcc g++ cmake
+RUN apt update && apt install -y gcc g++ cmake
 
-COPY . .
+COPY . /hello_world_application
+WORKDIR /hello_world_application
 
-RUN cd hello_world_application && cmake -B_build && cmake --build _build
-RUN hello_world_application/_build/hello_world
+RUN cmake -B_build && cmake --build _build
+
+ENV LOG_PATH /home/logs/log.txt
+
+VOLUME /home/logs
+
+WORKDIR _build
+
+ENTRYPOINT ./hello_world
