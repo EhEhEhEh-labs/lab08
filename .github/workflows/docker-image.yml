@@ -4,12 +4,28 @@ on:
   push:
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build -t logger .
+
+    - name: Build Docker image
+      run: |
+        docker build -t logger .
+
+    - name: Create logs directory
+      run: mkdir -p logs
+
+    - name: Run container with volume mount
+      run: |
+        docker run \
+          -v "$(pwd)/logs:/home/logs" \
+          -e LOG_PATH=/home/logs/log.txt \
+          logger <<< "Hello GitHub Actions"
+
+    - name: Upload logs artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: application-logs
+        path: ./logs/log.txt
