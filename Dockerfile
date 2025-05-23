@@ -11,5 +11,4 @@ COPY . .
 
 
 RUN cd hello_world_application && cmake -B_build && cmake --build _build
-RUN hello_world_application/_build/hello_world
-RUN -it -v "$(pwd)/logs/:/home/logs/" logger
+RUN hello_world_application/_build/hello_world > LOG_PATH
