@@ -7,9 +7,9 @@ COPY . .
 
 COPY . print/
 WORKDIR print
-RUN cmake -H. -B_build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=_install
-RUN cmake --build _build
-RUN cmake --build _build --target install
+RUN cd hello_world_application && \
+    cmake -B_build && \
+    cmake --build _build
 ENV LOG_PATH /home/logs/log.txt
 VOLUME /home/logs
 WORKDIR _install/bin
