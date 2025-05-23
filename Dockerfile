@@ -9,4 +9,4 @@ RUN cd hello_world_application && cmake -B_build && cmake --build _build
 
 VOLUME ["/logs"]
 
-CMD hello_world_application/_build/hello_world > /logs/hello_world.log 2>&1
+CMD hello_world_application/_build/hello_world > /logs/output.log 2>&1
