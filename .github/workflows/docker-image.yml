@@ -15,6 +15,7 @@ jobs:
     - name: Run container and capture logs
       run: |
         mkdir -p logs
+        touch output.log
         docker run --rm logger hello_world_application/_build/hello_world > logs/output.log 2>&1
     - name: Upload logs as artifact
       uses: actions/upload-artifact@v3
