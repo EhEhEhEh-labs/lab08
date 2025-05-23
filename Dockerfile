@@ -5,10 +5,12 @@ RUN apt-get install -y gcc g++ cmake
 
 COPY . .
 
-RUN cd hello_world_application 
-RUN cmake -B_build
+COPY . print/
+WORKDIR print
+RUN cmake -H. -B_build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=_install
 RUN cmake --build _build
-
-RUN mkdir -p /home/logs
-
-ENTRYPOINT ["/app/hello_world_application/_build/hello_world"]
+RUN cmake --build _build --target install
+ENV LOG_PATH /home/logs/log.txt
+VOLUME /home/logs
+WORKDIR _install/bin
+ENTRYPOINT ./demo
