@@ -14,9 +14,14 @@ jobs:
       
     - name: Run container
       run: |
-        mkdir -p logs
-        docker run --rm -v $(pwd)/logs:/home/logs logger > logs/output.log 2>&1
-        
+         docker build -t logger .
+         docker images
+         mkdir logs
+         docker run -it -v "$(pwd)/logs/:/home/logs/" logger
+         docker inspect logger
+         cat logs/log.txt
+         gsed -i 's/lab07/lab08/g' README.md
+         docker build -t logger .
     - name: Upload logs
       uses: actions/upload-artifact@v4  
       with:
