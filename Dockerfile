@@ -1,7 +1,7 @@
 FROM ubuntu:24.04
 
 RUN apt update
-RUN apt install -yy gcc g++ cmake
+RUN apt install -y gcc g++ cmake
 
 COPY . .
 
