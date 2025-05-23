@@ -6,15 +6,18 @@ on:
 jobs:
 
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
       run: docker build -t logger .
-    - name: Upload log as artifact
-      uses: actions/download-artifact@v3
+    - name: Run container and capture logs
+      run: |
+        mkdir -p logs
+        docker run --rm logger hello_world_application/_build/hello_world > logs/output.log 2>&1
+    - name: Upload logs as artifact
+      uses: actions/upload-artifact@v3
       with:
         name: hello-world-logs
-        path: LOG_PATH
+        path: logs/output.log
