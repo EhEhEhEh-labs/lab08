@@ -1,24 +1,29 @@
-name: Docker Image CI
+name: Docker CI with Logs
 
-on:
-  push:
+on: [push]
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
-
+    
     steps:
     - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build -t logger .
+    
+    - name: Build Docker image
+      run: docker build -t hello-world-app .
+      
     - name: Run container and capture logs
       run: |
         mkdir -p logs
-        touch output.log
-        docker run --rm logger hello_world_application/_build/hello_world > logs/output.log 2>&1
-    - name: Upload logs as artifact
-      uses: actions/upload-artifact@v3
+        docker run \
+          --rm \
+          -v $(pwd)/logs:/home/logs \
+          hello-world-app > logs/output.log 2>&1
+        
+    - name: Upload logs
+      uses: actions/upload-artifact@v4  # Changed from v3 to v4
       with:
-        name: hello-world-logs
-        path: logs/output.log
+        name: application-logs
+        path: |
+          logs/output.log
+          logs/log.txt
